@@ -1,3 +1,5 @@
-exports.getHello=()=>{
-    return {'message': 'Hello World'};
-};
+module.exports = class Hello {
+    getHello = () => {
+        return { 'message': 'Hello World' };
+    };
+}
