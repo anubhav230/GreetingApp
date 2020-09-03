@@ -1,14 +1,19 @@
-const massage = require('../services/service');
-const massage1 = new massage();
+const GreetingMassage = require('../services/service');
+const massage = new GreetingMassage();
 
 module.exports = class GreetingController {
     create = (req, res) => {
-        const greeting = massage1.getGreeting();
+        const greeting = massage.getGreeting();
         res.send(greeting);
     }
 
     delete = (req, res) => {
-        const greeting =massage1.deleteGreeting();
+        const greeting =massage.getGreeting();
+        res.send(greeting);
+    }
+
+    modify(req, res) {
+        const greeting =massage.getGreeting();
         res.send(greeting);
     }
 }
