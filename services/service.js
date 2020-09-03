@@ -1,5 +1,9 @@
 module.exports = class Hello {
-    getHello = () => {
+    getGreeting = () => {
+        return { 'message': 'Hello World' };
+    };
+
+    deleteGreeting = () => {
         return { 'message': 'Hello World' };
     };
 }
