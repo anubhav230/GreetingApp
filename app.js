@@ -4,22 +4,25 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 // create express app
+
+//module.exports = app = express();
 const app = express();
-require('../greetingapp/routers/routes.js')(app);
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+//require('./routers/routes.js')(app);
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse requests of content-type - application/json
 
 app.use(bodyParser.json());
-// define a simple route
+require('./routers/routes.js')(app);
 
-app.get('/', (req, res) => {
-    res.json({"message": "Welcome to greeting app"});
-});
+// app.get('/', (req, res) => {
+//     //console.log(req.body)
+//     res.send({"message": "Welcome to greeting app"});
+// });
+
 
 // listen for requests
-
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 });
