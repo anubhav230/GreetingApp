@@ -1,35 +1,46 @@
-// Configuring the database
+
+/**
+ * importing db Configration
+ */
 const dbConfig = require('./config/database.config.js');
+/**
+ * importing mongoose
+ */
 const mongoose = require('mongoose');
+/**
+ * importing express
+ */
 const express = require('express');
+/**
+ * importing bodyParser
+ */
 const bodyParser = require('body-parser');
-// create express app
 
-//module.exports = app = express();
+/**
+ * instance of express
+ */
 const app = express();
-//require('./routers/routes.js')(app);
-
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse requests of content-type - application/json
-
+/**
+ * parse requests of content-type - application/x-www-form-urlencoded
+ */
+app.use(bodyParser.urlencoded({ extended: true }))
+/**
+ * parse requests of content-type - application/json
+ */
 app.use(bodyParser.json());
+/**
+ * importing routers
+ */
 require('./routers/routes.js')(app);
-
-// app.get('/', (req, res) => {
-//     //console.log(req.body)
-//     res.send({"message": "Welcome to greeting app"});
-// });
-
-
-// listen for requests
+/**
+ * listen for requests
+ */
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 });
-
-mongoose.Promise = global.Promise;
-
-// Connecting to the database
+/**
+ * Connecting to the database
+ */
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true, useFindAndModify: false,
     useCreateIndex: true, useUnifiedTopology: true
