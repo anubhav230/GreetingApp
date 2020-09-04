@@ -2,7 +2,7 @@ const Greeting = require('../models/Model');
 var message;
 module.exports = class Hello {
     /**
-     * method greating greeting message
+     * @description method greating greeting message
      * @param {object} body of the request
      * @return {object} message
      */
@@ -19,7 +19,10 @@ module.exports = class Hello {
     }
 
 
-    
+    /**
+     * @description method for saving greeting
+     * @param {object} reqBody of the request
+     */
     async createGreeting(reqBody) {
         const message = this.getMessage(reqBody).message;
 

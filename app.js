@@ -1,45 +1,45 @@
 
 /**
- * importing db Configration
+ * @description importing db Configration
  */
 const dbConfig = require('./config/database.config.js');
 /**
- * importing mongoose
+ * @description importing mongoose
  */
 const mongoose = require('mongoose');
 /**
- * importing express
+ * @description importing express
  */
 const express = require('express');
 /**
- * importing bodyParser
+ * @description importing bodyParser
  */
 const bodyParser = require('body-parser');
 
 /**
- * instance of express
+ * @description instance of express
  */
 const app = express();
 /**
- * parse requests of content-type - application/x-www-form-urlencoded
+ * @description parse requests of content-type - application/x-www-form-urlencoded
  */
 app.use(bodyParser.urlencoded({ extended: true }))
 /**
- * parse requests of content-type - application/json
+ * @description parse requests of content-type - application/json
  */
 app.use(bodyParser.json());
 /**
- * importing routers
+ * @description importing routers
  */
 require('./routers/routes.js')(app);
 /**
- * listen for requests
+ * @description listen for requests
  */
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
 });
 /**
- * Connecting to the database
+ * @description Connecting to the database
  */
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true, useFindAndModify: false,
