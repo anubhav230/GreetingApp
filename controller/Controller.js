@@ -3,10 +3,13 @@ const massage = new GreetingMassage();
 
 module.exports = class GreetingController {
 
-    create = (req, res) => {
-        console.log(req.body)
-        const greeting = massage.getMessage(req.body);
-        res.send(greeting); 
+    async create(req, res) {
+        try {
+            const greetingMessage =await massage.createGreeting(req.body);
+            res.send(greetingMessage);
+        } catch (err) {
+            res.status(500).send(err);
+        }
     }
 
     find(req, res) {
