@@ -50,4 +50,15 @@ module.exports = class Hello {
             return data;
         });
     }
+    /**
+     * @description method for getting all greeting message
+     */
+    async findAll(){
+        return await Greeting.find().then((data) => {
+            if (!data) {
+                return new Error('is not present');
+            }
+            return data;
+        });
+    }
 }

@@ -9,6 +9,7 @@ const greeting = new greetingContriller();
 module.exports = (app) => {
     app.post('/', greeting.create);
     app.get('/:Id', greeting.find);
+    app.get('/', greeting.findAll);
     app.delete('/', greeting.delete);
     app.put('/', greeting.modify);
 }

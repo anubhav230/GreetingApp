@@ -25,7 +25,20 @@ module.exports = class GreetingController {
     async find(req, res) {
         console.log(req.body)
         try {
-            const greetingMessage = await massage.findById(req.params.Id)
+            const greetingMessage = await massage.findById(req.params.Id);
+            res.send(greetingMessage);
+        } catch (err) {
+            res.send(err);
+        }
+    }
+    /**
+     * @description function for finding all greeting messages
+     * @param {object} req 
+     * @param {object} res 
+     */
+    async findAll(req, res) {
+        try {
+            const greetingMessage = await massage.findAll();
             res.send(greetingMessage);
         } catch (err) {
             res.send(err);
