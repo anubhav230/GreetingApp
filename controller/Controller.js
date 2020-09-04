@@ -1,6 +1,6 @@
 // importing service
 const GreetingMassage = require('../services/service');
-// creating a instance 
+// creating a instance of service class 
 const massage = new GreetingMassage();
 
 module.exports = class GreetingController {
@@ -11,7 +11,7 @@ module.exports = class GreetingController {
      */
     async create(req, res) {
         try {
-            const greetingMessage =await massage.createGreeting(req.body);
+            const greetingMessage = await massage.create(req.body);
             res.send(greetingMessage);
         } catch (err) {
             res.status(500).send(err);
@@ -22,10 +22,14 @@ module.exports = class GreetingController {
      * @param {object} req 
      * @param {object} res 
      */
-    find(req, res) {
+    async find(req, res) {
         console.log(req.body)
-        const greeting = massage.getMessage(req.body);
-        res.send(greeting);
+        try {
+            const greetingMessage = await massage.findById(req.params.Id)
+            res.send(greetingMessage);
+        } catch (err) {
+            res.send(err);
+        }
     }
     /**
      * @description function for deleting greeting

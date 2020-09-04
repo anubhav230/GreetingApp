@@ -6,7 +6,7 @@ module.exports = class Hello {
      * @param {object} body of the request
      * @return {object} message
      */
-    getMessage(body) {  
+    getMessage(body) {
         if (body.firstName == "" && body.lastName == "") {
             message = `Hello World`
         }
@@ -23,20 +23,31 @@ module.exports = class Hello {
      * @description method for saving greeting
      * @param {object} reqBody of the request
      */
-    async createGreeting(reqBody) {
+    async create(reqBody) {
         const message = this.getMessage(reqBody).message;
-
         const greeting = new Greeting({
             firstName: reqBody.firstName,
             lastName: reqBody.lastName,
             message: message,
         });
+        console.log(greeting)
         return await greeting.save()
             .then((item) => {
                 return item;
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 return err;
             });
+    }
+    /**
+     * @description method for getting greeting by Id
+     * @param {id} id of the request
+     */
+    async findById(id) {
+        return await Greeting.findById(id).then((data) => {
+            if (!data) {
+                return new Error(id + 'is not present');
+            }
+            return data;
+        });
     }
 }
