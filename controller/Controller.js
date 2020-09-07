@@ -9,26 +9,22 @@ module.exports = class GreetingController {
      * @param {object} req 
      * @param {object} res 
      */
-    async create(req, res) {
-        try {
-            const greetingMessage = await massage.create(req.body);
-            res.send(greetingMessage);
-        } catch (err) {
-            res.status(500).send(err);
-        }
+    create(req, res){
+        const greetingMessage = massage.create(req.body);
+        res.send(greetingMessage);
     }
     /**
      * @description function for finding greeting
      * @param {object} req 
      * @param {object} res 
      */
-    async find(req, res) {
-        console.log(req.body)
-        try {
-            const greetingMessage = await massage.findById(req.params.Id);
-            res.send(greetingMessage);
-        } catch (err) {
-            res.send(err);
+    find(req, res){
+        try{
+            massage.findById(req.params.Id, res,(res, data)=>{
+                res.send(data);
+            })
+        }catch(err){
+            
         }
     }
     /**
@@ -36,23 +32,30 @@ module.exports = class GreetingController {
      * @param {object} req 
      * @param {object} res 
      */
-    async findAll(req, res) {
-        try {
-            const greetingMessage = await massage.findAll();
-            res.send(greetingMessage);
-        } catch (err) {
-            res.send(err);
+    findAll(req, res){
+        try{
+            massage.findAll(res,(res, data)=>{
+                res.send(data);
+            })
+        }catch (err){
+            res.send(err.message)
         }
     }
+
     /**
      * @description function for deleting greeting
      * @param {object} req 
      * @param {object} res 
      */
-    delete = (req, res) => {
-        console.log(req.body)
-        const greeting = massage.getMessage(req.body);
-        res.send(greeting);
+    delete(req, res){
+        massage.deleteGreeting(req, (err)=>{
+            if(err){
+                return res.send(err)
+            }else{
+                return res.status(200).send('Greeting Deleted')
+            }
+        });
+
     }
     /**
      * @description function for modifying greeting
@@ -60,8 +63,8 @@ module.exports = class GreetingController {
      * @param {object} res 
      */
     modify(req, res) {
-        console.log(req.body)
-        const greeting = massage.getMessage(req.body);
-        res.send(greeting);
+        massage.editGreeitng(req,res,(res,item) => {
+            res.send({'edit':'Greeting message updated'})
+        });
     }
 }
