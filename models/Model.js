@@ -13,8 +13,6 @@ class GreetingModel{
         greeting.firstname = greeting.firstname;
         greeting.lastname = greeting.lastname;
         greeting.message = greeting.lastname;
-
-        
     }
 }
 
