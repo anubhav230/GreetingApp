@@ -1,4 +1,4 @@
-const greetingContriller = require('../controller/Controller');
+const greetingContriller = require('../controller/GreetingController');
 
 const greeting = new greetingContriller();
 

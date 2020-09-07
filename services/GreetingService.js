@@ -21,42 +21,43 @@ module.exports = class Hello {
      * @description method for saving greeting
      * @param {object} reqBody of the request
      */
-    create(reqBody, res, callback) {
+    create(reqBody, res) {
         let message = this.getMessage(reqBody).message;
         const greeting = new Greeting({
             firstName: reqBody.firstName,
             lastName: reqBody.lastName,
             message: message,
         });
-        greeting.save().then((item)=>{
-            callback(res, item);
-        }).catch((err)=>{
-           callback(res, {'error':'error'})
-        })
+        greeting.save().then((item) => {
+            return item
+        });
     }
     /**
      * @description method for getting greeting by Id
      * @param {string} id of the request
+     *  @param {object} res
      */
     findById(id, res, callback) {
         Greeting.findById(id).then((item) => {
-            if (!item)
-                throw new Error();
-            callback(res, item)
+            if (!item) {
+                res.send({ 'message': 'id not exist' })
+            } else {
+                callback(res, item)
+            }
         });
     }
     /**
      * @description function for fild all greeting message
-     * @param {string} id id of the greeting
+     * @param {object} res
      */
     findAll(res, callback) {
         Greeting.find().then((item) => {
             if (!item)
                 throw new Error();
             callback(res, item);
-        })
+        });
     }
-    
+
     deleteGreeting(req, callback) {
         let id = req.params.Id;
         Greeting.findByIdAndRemove(id, (err, data) => {
@@ -68,15 +69,15 @@ module.exports = class Hello {
         });
     }
 
-    editGreeitng(req, res, callback){
+    editGreeitng(req, res, callback) {
         const message = this.getMessage(req.body)
         let id = req.params.Id;
         Greeting.findByIdAndUpdate(id, {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             message: message.message,
-        }).then((item)=>{
-            if(!item){
+        }).then((item) => {
+            if (!item) {
                 throw new Error();
             }
             callback(res, item);

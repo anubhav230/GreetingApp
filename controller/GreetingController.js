@@ -1,7 +1,7 @@
 // importing service
-const GreetingMassage = require('../services/service');
+const GreetingMassage = require('../services/GreetingService');
 // creating a instance of service class 
-const massage = new GreetingMassage();
+const message = new GreetingMassage();
 
 module.exports = class GreetingController {
     /**
@@ -10,8 +10,8 @@ module.exports = class GreetingController {
      * @param {object} res 
      */
     create(req, res){
-        const greetingMessage = massage.create(req.body);
-        res.send(greetingMessage);
+        const greetingMessage = message.create(req.body);
+        res.send({'message':'created successfully'});
     }
     /**
      * @description function for finding greeting
@@ -20,11 +20,11 @@ module.exports = class GreetingController {
      */
     find(req, res){
         try{
-            massage.findById(req.params.Id, res,(res, data)=>{
+            message.findById(req.params.Id, res,(res, data)=>{
                 res.send(data);
             })
         }catch(err){
-            
+            res.send(err.message)
         }
     }
     /**
@@ -34,7 +34,7 @@ module.exports = class GreetingController {
      */
     findAll(req, res){
         try{
-            massage.findAll(res,(res, data)=>{
+            message.findAll(res,(res, data)=>{
                 res.send(data);
             })
         }catch (err){
@@ -48,7 +48,7 @@ module.exports = class GreetingController {
      * @param {object} res 
      */
     delete(req, res){
-        massage.deleteGreeting(req, (err)=>{
+        message.deleteGreeting(req, (err)=>{
             if(err){
                 return res.send(err)
             }else{
@@ -63,7 +63,7 @@ module.exports = class GreetingController {
      * @param {object} res 
      */
     modify(req, res) {
-        massage.editGreeitng(req,res,(res,item) => {
+        message.editGreeitng(req,res,(res,item) => {
             res.send({'edit':'Greeting message updated'})
         });
     }
