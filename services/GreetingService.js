@@ -1,86 +1,90 @@
-const Greeting = require('../models/Model');
-var message;
-module.exports = class Hello {
-    /**
-     * @description method greating greeting message
-     * @param {object} body of the request
-     * @return {object} message
-     */
-    getMessage(body) {
-        if (typeof body.firstName === undefined && typeof body.lastName === undefined) {
-            message = `Hello World`
+
+let model = require('../Models/Model');
+const { request } = require('chai');
+
+class GreetingServices {
+
+    sayHello(body) {
+        let data
+        if (body.firstName == '' && body.lastName == '') {
+            data = {
+                'message': `Hello World`
+            }
         }
         else {
             let firstname = body.firstName == undefined ? '' : body.firstName;
             let lastname = body.lastName == undefined ? '' : body.lastName;
-            message = `Welcome to greeting app ${firstname} ${lastname}`
-        }
-        return { 'message': message }
-    }
-    /**
-     * @description method for saving greeting
-     * @param {object} reqBody of the request
-     */
-    create(reqBody, res) {
-        let message = this.getMessage(reqBody).message;
-        const greeting = new Greeting({
-            firstName: reqBody.firstName,
-            lastName: reqBody.lastName,
-            message: message,
-        });
-        greeting.save().then((item) => {
-            return item
-        });
-    }
-    /**
-     * @description method for getting greeting by Id
-     * @param {string} id of the request
-     *  @param {object} res
-     */
-    findById(id, res, callback) {
-        Greeting.findById(id).then((item) => {
-            if (!item) {
-                res.send({ 'message': 'id not exist' })
-            } else {
-                callback(res, item)
+            data = {
+                'message': `Welcome to greeting app ${firstname} ${lastname}`
             }
-        });
-    }
-    /**
-     * @description function for fild all greeting message
-     * @param {object} res
-     */
-    findAll(res, callback) {
-        Greeting.find().then((item) => {
-            if (!item)
-                throw new Error();
-            callback(res, item);
+        }
+        return model.create(data).then(ans => {
+            return ans;
+        }).catch((err)=>{
+            return err
         });
     }
 
-    deleteGreeting(req, callback) {
-        let id = req.params.Id;
-        Greeting.findByIdAndRemove(id, (err, data) => {
-            if (err) {
-                callback(err)
-            } else {
-                callback(null, data)
-            }
-        });
-    }
-    
-    editGreeitng(req, res, callback) {
-        const message = this.getMessage(req.body)
-        let id = req.params.Id;
-        Greeting.findByIdAndUpdate(id, {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            message: message.message,
-        }).then((item) => {
-            if (!item) {
-                throw new Error();
-            }
-            callback(res, item);
+
+    findAllData() {
+        let id = {}
+
+        return model.read(id).then(ans => {
+            return ans;
+        }).catch((err)=>{
+            return err
         })
     }
+
+    findById(req) {
+        let id = {
+            _id: req.id
+        }
+        // console.log(id)
+        return model.read(id).then(ans => {
+            return ans;
+        }).catch((err)=>{
+            return err
+        }).catch((err)=>{
+            return err
+        })
+
+        
+    }
+
+    deleteById(req){
+        let data = {
+            _id: req.id
+        }
+        return model.delete(data).then(ans => {
+            return ans;
+        }).catch((err)=>{
+            return err
+        })
+    }
+
+    getmessage(reqbody){
+        let firstname = reqbody.firstName == undefined ? '' : reqbody.firstName;
+        let lastname = reqbody.lastName == undefined ? '' : reqbody.lastName;
+        let message = `Welcome to greeting app ${firstname} ${lastname}`
+        return { 'message': message };
+    }
+
+    editById(req, res) {
+        const message = this.getmessage(req)
+        let data = {
+            _id: req.id,
+            firstName: req.firstName,
+            lastName: req.lastName,
+            message: message.message
+        }
+        return model.update(data).then(ans => {
+            return ans;
+        }).catch((err)=>{
+            return err;
+        })
+    }
+
 }
+
+module.exports = new GreetingServices();

@@ -1,16 +1,15 @@
-const greetingContriller = require('../controller/GreetingController');
-
-const greeting = new greetingContriller();
+//const greetingContriller = require('../controller/GreetingController');
+const greetingController = require('../controller/GreetingController');
+const Controller = new greetingController();
 
 /**
  * @description Exporting routes
  * @param {function} app http requests 
  */
 module.exports = (app) => {
-    app.post('/', greeting.create);
-    app.get('/:Id', greeting.find);
-    app.get('/', greeting.findAll);
-    app.delete('/:Id', greeting.delete);
-    app.put('/:Id', greeting.modify);
-    app.patch('/')
+    app.post('/', Controller.sayHello);
+    app.get('/', Controller.findAllGreeting);
+    app.get('/:Id', Controller.findGreetingById);
+    app.delete('/:Id', Controller.deleteGreeting);
+    app.put('/:id', Controller.editGreetingMessage);
 }

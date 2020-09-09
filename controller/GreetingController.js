@@ -1,70 +1,64 @@
 // importing service
-const GreetingMassage = require('../services/GreetingService');
+const greetingService = require('../services/GreetingService');
 // creating a instance of service class 
-const message = new GreetingMassage();
+//const massage = new GreetingMassage();
 
 module.exports = class GreetingController {
-    /**
-     * @description function for creating greeting
-     * @param {object} req 
-     * @param {object} res 
-     */
-    create(req, res){
-        const greetingMessage = message.create(req.body);
-        res.send({'message':'created successfully'});
-    }
-    /**
-     * @description function for finding greeting
-     * @param {object} req 
-     * @param {object} res 
-     */
-    find(req, res){
-        try{
-            message.findById(req.params.Id, res,(res, data)=>{
-                res.send(data);
-            })
-        }catch(err){
-            res.send(err.message)
+
+    sayHello(req, res, next) {
+        let data = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName
         }
-    }
-    /**
-     * @description function for finding all greeting messages
-     * @param {object} req 
-     * @param {object} res 
-     */
-    findAll(req, res){
-        try{
-            message.findAll(res,(res, data)=>{
-                res.send(data);
-            })
-        }catch (err){
-            res.send(err.message)
-        }
+        greetingService.sayHello(data).then(data => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        });
     }
 
-    /**
-     * @description function for deleting greeting
-     * @param {object} req 
-     * @param {object} res 
-     */
-    delete(req, res){
-        message.deleteGreeting(req, (err)=>{
-            if(err){
-                return res.send(err)
-            }else{
-                return res.status(200).send('Greeting Deleted')
-            }
-        });
-
+    findAllGreeting(req, res) {
+        greetingService.findAllData().then(data => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     }
-    /**
-     * @description function for modifying greeting
-     * @param {object} req 
-     * @param {object} res 
-     */
-    modify(req, res) {
-        message.editGreeitng(req,res,(res,item) => {
-            res.send({'edit':'Greeting message updated'})
+
+    findGreetingById(req, res) {
+        let data = {
+            id: req.params.Id
+        }
+        greetingService.findById(data).then(data => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
+    }
+
+    deleteGreeting(req, res) {
+       
+        let data = {
+            id: req.params.Id
+        }
+        greetingService.deleteById(data).then(data => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(500).send(err)
         });
+    }
+
+    editGreetingMessage(req, res) {
+        let data = {
+            id: req.params.id,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            message: req.body.message
+        }
+        greetingService.editById(data).then(data => {
+            res.status(200).send(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     }
 }
